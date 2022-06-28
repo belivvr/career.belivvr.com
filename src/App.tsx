@@ -18,7 +18,7 @@ export default function App(): JSX.Element {
     
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     
-    for(let [key, value] of formData.entries()){
+    for(let [, value] of formData.entries()){
       setChats((prev) => ([
         ...prev,
         value as string,
