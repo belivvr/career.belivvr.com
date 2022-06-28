@@ -3,9 +3,8 @@ import { useState } from 'react';
 
 export default function App(): JSX.Element {
   const socket = io(import.meta.env.VITE_API_URL);
-  
+
   const [chats, setChats] = useState<string[]>([]);
-  const [sendingText, setSendingText] = useState('');
 
   socket.on('chat', (chat: string) => {
     setChats((prev) => ([
@@ -14,19 +13,17 @@ export default function App(): JSX.Element {
     ]));
   });
 
-  const changeHandler = (e: React.ChangeEvent) => {
-    const { value } = e.target as HTMLInputElement;
-    setSendingText(value);
-  };
-
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    socket.emit('chat', sendingText);
-    setChats((prev) => ([
-      ...prev,
-      sendingText,
-    ]));
-    setSendingText('');
+    
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    
+    for(let [key, value] of formData.entries()){
+      setChats((prev) => ([
+        ...prev,
+        value as string,
+      ]));
+    }
   };
 
   return (
@@ -34,12 +31,12 @@ export default function App(): JSX.Element {
       <h1>Chat</h1>
       <ul>
         {
-          chats.map((chat) => <li>{chat}</li>)
+          chats.map((chat,idx) => <li key={idx}>{chat}</li>)
         }
       </ul>
 
       <form action="" onSubmit={submitHandler}>
-        <input type="text" onChange={changeHandler} value={sendingText} />
+        <input type="text" name="text"/>
         <input type="submit" value="Submit" />
       </form>
     </div>
