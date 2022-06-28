@@ -1,19 +1,17 @@
 import { io } from 'socket.io-client';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-
-import chatState from './state/chat';
 
 export default function App(): JSX.Element {
-  const [chats, setChats] = useRecoilState(chatState);
   const socket = io(import.meta.env.VITE_API_URL);
+  
+  const [chats, setChats] = useState<string[]>([]);
   const [sendingText, setSendingText] = useState('');
 
   socket.on('chat', (chat: string) => {
-    setChats([
-      ...chats,
+    setChats((prev) => ([
+      ...prev,
       chat,
-    ]);
+    ]));
   });
 
   const changeHandler = (e: React.ChangeEvent) => {
@@ -24,6 +22,10 @@ export default function App(): JSX.Element {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     socket.emit('chat', sendingText);
+    setChats((prev) => ([
+      ...prev,
+      sendingText,
+    ]));
     setSendingText('');
   };
 
