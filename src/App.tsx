@@ -1,9 +1,9 @@
 import { io } from 'socket.io-client';
 import { useState } from 'react';
 
-export default function App(): JSX.Element {
-  const socket = io(import.meta.env.VITE_API_URL);
+const socket = io(import.meta.env.VITE_API_URL);
 
+export default function App(): JSX.Element {
   const [chats, setChats] = useState<string[]>([]);
 
   socket.on('chat', (chat: string) => {
