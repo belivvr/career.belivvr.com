@@ -31,7 +31,7 @@ export default function App(): JSX.Element {
       <h1>Chat</h1>
       <ul>
         {
-          chats.map((chat,idx) => <li key={idx}>{chat}</li>)
+          chats.map((chat,index) => <li key={index}>{chat}</li>)
         }
       </ul>
 
