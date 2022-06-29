@@ -18,9 +18,7 @@ export default function App(): JSX.Element {
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
-    for (const [, value] of formData.entries()) {
-      socket.emit('chat', value);
-    }
+    Array.from(formData.values()).forEach((value) => socket.emit('chat', value));
   };
 
   return (
