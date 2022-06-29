@@ -1,39 +1,38 @@
-import { io } from 'socket.io-client';
 import { useState } from 'react';
+import { io } from 'socket.io-client';
+
+import { useRecoilValue } from 'recoil';
+import nameState from './state/name';
+import { ChatType } from './type/chat';
+import NicknameModal from './components/Nickname';
+import MessageBox from './components/MessageBox';
+import MessageForm from './components/MessageForm';
+import Title from './components/Title';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
 export default function App(): JSX.Element {
-  const [chats, setChats] = useState<string[]>([]);
+  const name = useRecoilValue(nameState);
+  const [chats, setChats] = useState<ChatType[]>([]);
 
-  socket.on('chat', (chat: string) => {
+  socket.on('chat', (chat: ChatType) => {
     setChats((prev) => ([
       ...prev,
       chat,
     ]));
   });
 
-  const submitHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-
-    Array.from(formData.values()).forEach((value) => socket.emit('chat', value));
-  };
-
   return (
     <div>
-      <h1>Chat</h1>
-      <ul>
-        {
-          chats.map((chat, index) => <li key={`${chat + index}`}>{chat}</li>)
-        }
-      </ul>
+      {
+        !name && <NicknameModal socket={socket} />
+      }
 
-      <form action="" onSubmit={submitHandler}>
-        <input type="text" name="text" />
-        <button type="submit"> Submit</button>
-      </form>
+      <Title text="Message" />
+
+      <MessageBox chats={chats} />
+
+      <MessageForm socket={socket} />
     </div>
   );
 }
