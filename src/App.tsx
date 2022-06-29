@@ -17,7 +17,7 @@ export default function App(): JSX.Element {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    
+
     for (const [, value] of formData.entries()) {
       socket.emit('chat', value);
     }
@@ -28,7 +28,7 @@ export default function App(): JSX.Element {
       <h1>Chat</h1>
       <ul>
         {
-          chats.map((chat, index) => <li key={index}>{chat}</li>)
+          chats.map((chat, index) => <li key={`${chat + index}`}>{chat}</li>)
         }
       </ul>
 
