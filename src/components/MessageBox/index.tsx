@@ -9,8 +9,8 @@ export default function MessageBox({ chats }: Props) {
   return (
     <ul>
       {
-          chats.map((chat) => (
-            <Message key={chat.id} chat={chat} />
+          chats.map((chat, index) => (
+            <Message key={`${chat.id + index}`} chat={chat} />
           ))
         }
     </ul>
