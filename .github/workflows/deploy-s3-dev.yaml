@@ -19,6 +19,7 @@ jobs:
       - name: Build
         run: yarn build
         env:
+          VITE_API_URL: ${{ secrets.DEV_API_URL }}
           PUBLIC_URL: https://dev.career.belivvr.com
 
       - name: Deploy S3
