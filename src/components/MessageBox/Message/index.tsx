@@ -4,12 +4,8 @@ type Props = {
   chat: ChatType
 };
 
-export default function Message({ chat }: Props) {
+export default function Message({ chat: { name, message } }: Props) {
   return (
-    <li>
-      {
-        `${chat.name} : ${chat.message}`
-      }
-    </li>
+    <li>{`${name} : ${message}`}</li>
   );
 }
