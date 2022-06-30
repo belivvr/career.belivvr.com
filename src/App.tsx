@@ -32,7 +32,7 @@ export default function App(): JSX.Element {
 
       <MessageBox chats={chats} />
 
-      <MessageForm socket={socket} />
+      <MessageForm socket={socket} setChats={setChats} name={name} />
     </div>
   );
 }
