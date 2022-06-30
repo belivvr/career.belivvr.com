@@ -1,9 +1,9 @@
 type Props = {
-  text: string
+  children: React.ReactNode;
 };
 
-export default function Title({ text }: Props) {
+export default function Title({ children }: Props) {
   return (
-    <h1>{text}</h1>
+    <h1>{children}</h1>
   );
 }
