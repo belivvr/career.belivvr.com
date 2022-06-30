@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 import { ChatType } from './type/chat';
@@ -13,12 +13,14 @@ export default function App(): JSX.Element {
   const [name, setName] = useState('');
   const [chats, setChats] = useState<ChatType[]>([]);
 
-  socket.on('chat', (chat: ChatType) => {
-    setChats((prev) => ([
-      ...prev,
-      chat,
-    ]));
-  });
+  useEffect(() => () => {
+    socket.on('chat', (chat: ChatType) => {
+      setChats((prev) => ([
+        ...prev,
+        chat,
+      ]));
+    });
+  }, []);
 
   return (
     <div>
