@@ -24,7 +24,7 @@ export default function Nickname({ socket }: Props) {
 
   return (
     <>
-      <Title text="Nickname" />
+      <Title>Nickname</Title>
       <form action="" onSubmit={submitHandler}>
         <input type="text" name="name" />
         <button type="submit">Submit</button>

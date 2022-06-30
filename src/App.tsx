@@ -28,7 +28,7 @@ export default function App(): JSX.Element {
         !name && <NicknameModal socket={socket} />
       }
 
-      <Title text="Message" />
+      <Title>Message</Title>
 
       <MessageBox chats={chats} />
 
