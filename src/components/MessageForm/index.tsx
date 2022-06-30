@@ -22,7 +22,7 @@ export default function MessageForm({ socket }: Props) {
   };
 
   return (
-    <form action="" onSubmit={submitHandler}>
+    <form onSubmit={submitHandler}>
       <input type="text" name="text" />
       <button type="submit"> Submit</button>
     </form>
