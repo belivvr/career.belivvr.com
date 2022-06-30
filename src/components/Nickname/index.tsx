@@ -1,14 +1,11 @@
-import { useSetRecoilState } from 'recoil';
-import nameState from '../../state/name';
 import Title from '../Title';
 
 type Props = {
-  socket: any
+  socket: any,
+  setName: (name: string) => void
 };
 
-export default function Nickname({ socket }: Props) {
-  const setName = useSetRecoilState(nameState);
-
+export default function Nickname({ socket, setName }: Props) {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
