@@ -12,11 +12,13 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@belivvr/aframe-react": "^0.4.2",
+    "aframe": "github:aframevr/aframe#480a303b3c1932170552a3e4f9287298c1039c27",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0",
     "recoil": "^0.7.4",
-    "socket.io-client": "^4.5.1",
-    "react-router-dom": "^6.3.0"
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
