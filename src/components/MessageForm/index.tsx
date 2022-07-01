@@ -30,9 +30,7 @@ export default function MessageForm({ socket, setChats, name }: Props) {
       ]));
     });
 
-    if (input.current) {
-      input.current.value = '';
-    }
+    input.current!.value = '';
   };
 
   return (
