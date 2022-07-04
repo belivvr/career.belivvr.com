@@ -1,4 +1,4 @@
-import 'aframe';
+import AFRAME from 'aframe';
 import 'aframe-mirror';
 import {
   Scene, Box, Plane, Camera,
@@ -7,12 +7,54 @@ import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 import { ChatType } from './type/chat';
+import { PositionType, RotationType } from './type/object3D';
 import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
 
+type UserType = {
+  [id: string]: {
+    position: PositionType,
+    rotation: RotationType
+  }
+};
+
 const socket = io(import.meta.env.VITE_API_URL);
+
+let beforePosition = { x: 0, y: 0, z: 0 };
+let beforeRotation = { x: 0, y: 0, z: 0 };
+
+const equlas = (position: PositionType, rotation: RotationType): boolean => {
+  if (beforePosition.x !== position.x) return false;
+  if (beforePosition.y !== position.y) return false;
+  if (beforePosition.z !== position.z) return false;
+  if (beforeRotation.x !== rotation.x) return false;
+  if (beforeRotation.x !== rotation.y) return false;
+  if (beforeRotation.x !== rotation.z) return false;
+
+  return true;
+};
+
+const users: UserType = {
+};
+
+socket.on('occupants', ({ id, position, rotation }) => {
+  users[id].position = position;
+  users[id].rotation = rotation;
+});
+
+AFRAME.registerComponent('occupants', {
+  tick() {
+    const { position, rotation } = this.el.object3D;
+
+    if (!equlas(position, rotation)) {
+      beforePosition = position;
+      beforeRotation = rotation;
+      socket.emit('occupants', { id: socket.id, position, rotation });
+    }
+  },
+});
 
 export default function App(): JSX.Element {
   const [name, setName] = useState('');
@@ -30,7 +72,7 @@ export default function App(): JSX.Element {
   return (
     <div>
       <Scene>
-        <Camera>
+        <Camera occupants>
           <Box
             color="blue"
           />
