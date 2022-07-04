@@ -17,6 +17,7 @@ specifiers:
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
   '@testing-library/react-hooks': ^8.0.1
+  '@types/aframe': ^1.2.0
   '@types/jest': ^28.1.3
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
@@ -70,6 +71,7 @@ devDependencies:
   '@testing-library/jest-dom': 5.16.4
   '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/react-hooks': 8.0.1_twyhzqqpkwvvgrmyeapdo6i4my
+  '@types/aframe': 1.2.0
   '@types/jest': 28.1.4
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
@@ -4001,6 +4003,17 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
+  /@types/aframe/1.2.0:
+    resolution: {integrity: sha512-hlqxbAkrGZftxTSaa0Phwfsi3mAxR/ND8o1sMQqefEbRPhxqaShe1ilFWQQb/2OYkJneWbUOAxsQLGxYAMPH+g==}
+    dependencies:
+      '@types/animejs': 3.1.4
+      '@types/three': 0.141.0
+    dev: true
+
+  /@types/animejs/3.1.4:
+    resolution: {integrity: sha512-WUjeFT2SXd6intfE6cg6eL1jk/JL88JqM2gC4WqO4iHLmbCvHUq6aoLK13lGpDWs4FtS2PHoYraJZ0dEx99Dyg==}
+    dev: true
+
   /@types/aria-query/4.2.2:
     resolution: {integrity: sha512-HnYpAE1Y6kRyKM/XkEuiRQhTHvkzMBurTHnpFLYLBGPIylZNPs9jJcuOOYWxPLJCSEtmZT0Y8rHDokKN7rRTig==}
     dev: true
@@ -4225,6 +4238,12 @@ packages:
       '@types/jest': 28.1.4
     dev: true
 
+  /@types/three/0.141.0:
+    resolution: {integrity: sha512-OJdKDgTPVBUgc+s74DYoy4aLznbFFC38Xm4ElmU1YwGNgR7GGFVvFCX7lpVgOsT6S1zSJtGdajTsOYE8/xY9nA==}
+    dependencies:
+      '@types/webxr': 0.4.0
+    dev: true
+
   /@types/tough-cookie/4.0.2:
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
     dev: true
@@ -4260,6 +4279,10 @@ packages:
       '@types/webpack-sources': 3.2.0
       anymatch: 3.1.2
       source-map: 0.6.1
+    dev: true
+
+  /@types/webxr/0.4.0:
+    resolution: {integrity: sha512-LQvrACV3Pj17GpkwHwXuTd733gfY+D7b9mKdrTmLdO7vo7P/o6209Qqtk63y/FCv/lspdmi0pWz6Qe/ull9kQg==}
     dev: true
 
   /@types/yargs-parser/21.0.0:
