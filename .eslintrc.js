@@ -3,6 +3,9 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  globals: {
+    AFRAME: 'readonly',
+  },
   extends: [
     'plugin:react/recommended',
     'airbnb',
