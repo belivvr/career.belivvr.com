@@ -37,6 +37,7 @@ specifiers:
   jest: ^28.1.1
   jest-environment-jsdom: ^28.1.1
   jest-plugin-context: ^2.9.0
+  lodash: ^4.17.21
   react: ^18.0.0
   react-dom: ^18.0.0
   react-router-dom: ^6.3.0
@@ -89,6 +90,7 @@ devDependencies:
   jest: 28.1.2
   jest-environment-jsdom: 28.1.2
   jest-plugin-context: 2.9.0_jest@28.1.2
+  lodash: 4.17.21
   typescript: 4.7.4
   vite: 2.9.12
 
@@ -5633,7 +5635,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -11284,17 +11286,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-    dev: true
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
     dev: true
 
   /promise-polyfill/3.1.0:
