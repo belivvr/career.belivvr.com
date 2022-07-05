@@ -1,4 +1,4 @@
-import 'aframe';
+import AFRAME from 'aframe';
 import 'aframe-mirror';
 import {
   Scene, Box, Plane, Camera,
@@ -14,23 +14,67 @@ import Title from './components/Title';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
+AFRAME.registerComponent('occupants', {
+  tick() {
+    const { position } = this.el.object3D;
+
+    socket.emit('occupants', { position });
+  },
+});
+
+type Vector3 = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+interface User {
+  position: Vector3;
+}
+
 export default function App(): JSX.Element {
   const [name, setName] = useState('');
   const [chats, setChats] = useState<ChatType[]>([]);
+  const [users, setUsers] = useState<{ [id: string]: User }>({});
 
-  useEffect(() => () => {
-    socket.on('chat', (chat: ChatType) => {
-      setChats((prev) => ([
-        ...prev,
-        chat,
-      ]));
-    });
+  useEffect(() => {
+    socket
+      .on('chat', (chat: ChatType) => {
+        setChats((prev) => ([
+          ...prev,
+          chat,
+        ]));
+      })
+      .on('all occupants', (data: { [id: string]: User }) => {
+        setUsers(data);
+      })
+      .on('occupants', ({ id, position }) => {
+        setUsers((prev) => ({ ...prev, [id]: { position } }));
+      })
+      .on('leave', (id) => {
+        setUsers((prev) => {
+          const next = prev;
+          delete next[id];
+
+          return next;
+        });
+      });
   }, []);
 
   return (
     <div>
       <Scene>
-        <Camera>
+        {
+          Object.entries(users).map(([id, { position }]) => id !== socket.id && (
+            <Box
+              key={id}
+              id={id}
+              color="red"
+              position={position}
+            />
+          ))
+        }
+        <Camera occupants>
           <Box
             color="blue"
           />
