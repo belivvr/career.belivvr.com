@@ -9,6 +9,7 @@ import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
+import './aframe/look-controls-touch-y-axis';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
@@ -85,7 +86,11 @@ export default function App(): JSX.Element {
             />
           ))
         }
-        <Camera position={{ x: 0, y: 0.8, z: 0 }} occupants>
+        <Camera
+          position={{ x: 0, y: 0.8, z: 0 }}
+          occupants
+          magicWindowTrackingEnabled={false}
+        >
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"
             ammo-shape="type: cylinder"
