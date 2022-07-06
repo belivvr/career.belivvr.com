@@ -13,6 +13,7 @@ import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 
 const socket = io(import.meta.env.VITE_API_URL);
+const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 AFRAME.registerComponent('click-open-modal', {
   init() {
@@ -100,6 +101,9 @@ export default function App(): JSX.Element {
         <Camera
           position={{ x: 0, y: 0.8, z: 0 }}
           occupants
+          lookControls={{
+            magicWindowTrackingEnabled: !isMobileDevice,
+          }}
         >
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"

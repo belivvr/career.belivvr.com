@@ -18,8 +18,6 @@ if (isMobileDevice) {
       const { camera } = document.querySelector('a-scene');
       this.camera = camera;
 
-      camera.el.setAttribute('magic-window-tracking-enabled', 'false');
-
       const manager = nipplejs.create({
         mode: 'static',
         zone: joystick,
