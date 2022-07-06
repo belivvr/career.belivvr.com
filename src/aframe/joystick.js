@@ -33,7 +33,7 @@ if (isMobileDevice) {
 
         joystick.children[0].style.display = 'none';
 
-        const vector = radian + (Math.PI / 180) * camera.rotation.y;
+        const vector = radian + (Math.PI / 180) * camera.el.getAttribute('rotation').y;
         const xVector = Math.cos(vector);
         const yVector = Math.sin(vector);
 
