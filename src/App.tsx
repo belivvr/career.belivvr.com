@@ -13,6 +13,24 @@ import './aframe/look-controls-touch-y-axis';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
+AFRAME.registerComponent('click-open-modal', {
+  init() {
+    this.el.addEventListener('click', () => {
+      document.querySelector('#modal').style.display = 'block';
+    });
+  },
+});
+
+AFRAME.registerComponent('detect-collision', {
+  init() {
+    this.el.addEventListener('collidestart', (e: any) => {
+      if (e.detail.targetEl.id === 'npc') {
+        console.log('hit');
+      }
+    });
+  },
+});
+
 AFRAME.registerComponent('occupants', {
   tick() {
     const { position } = this.el.object3D;
@@ -35,7 +53,6 @@ export default function App(): JSX.Element {
   const [name, setName] = useState('');
   const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
-  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     socket
@@ -59,14 +76,6 @@ export default function App(): JSX.Element {
           return next;
         });
       });
-
-    AFRAME.registerComponent('click-open-modal', {
-      init() {
-        this.el.addEventListener('click', () => {
-          setIsOpenModal(true);
-        });
-      },
-    });
   }, []);
 
   return (
@@ -94,6 +103,7 @@ export default function App(): JSX.Element {
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"
             ammo-shape="type: cylinder"
+            detect-collision
           />
         </Camera>
 
@@ -104,14 +114,15 @@ export default function App(): JSX.Element {
           color="transparent"
           position={{ x: 0, y: -0.01, z: 0 }}
           rotation={{ x: -90, y: 0, z: 0 }}
-          ammo-body="type: static"
+          ammo-body="type: static;"
           ammo-shape="type: mesh"
         />
 
         <Box
+          id="npc"
           color="red"
           position={{ x: -5, y: 0.5, z: -10 }}
-          ammo-body="type: static"
+          ammo-body="type: static;"
           ammo-shape="type: box"
           click-open-modal
         />
@@ -133,7 +144,7 @@ export default function App(): JSX.Element {
       <div
         id="modal"
         style={{
-          display: isOpenModal ? 'block' : 'none',
+          display: 'none',
           width: '100px',
           height: '100px',
           background: 'black',
@@ -150,22 +161,3 @@ export default function App(): JSX.Element {
     </div>
   );
 }
-
-/**
- * 개발자 채용 페이지
- *
- * - 어떤 사람을 뽑을 것인지 Job Description 소개
- * - 어떻게 지원해야 하는지 설명
- *
- * ---------
- * 지금 만들고 있는 개발자 Career 페이지
- *
- * - VR 지원
- * - 다른 사람들이 뭘 보고있는지 보임
- * - 채팅도 할 수 있음
- * - 뭔가 물체가 있고 가까이 가거나 클릭하면 JD가 나옴
- *   - 어떤 형태로 나올 것인가
- *   - NPC?: 자네 언리얼을 하고싶다고?
- *   - 컨셉을 잡아야 함
- * - 게시판 처럼 있고 가까이 가서 보는 형태면?
- */
