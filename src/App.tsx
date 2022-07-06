@@ -1,5 +1,5 @@
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets,
+  Scene, Box, Plane, Camera, Cylinder, Sphere,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -9,6 +9,7 @@ import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
+import './aframe/look-controls-touch-y-axis';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
@@ -85,7 +86,11 @@ export default function App(): JSX.Element {
             />
           ))
         }
-        <Camera position={{ x: 0, y: 0.8, z: 0 }} occupants>
+        <Camera
+          position={{ x: 0, y: 0.8, z: 0 }}
+          occupants
+          magicWindowTrackingEnabled={false}
+        >
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"
             ammo-shape="type: cylinder"
@@ -112,7 +117,6 @@ export default function App(): JSX.Element {
         />
 
         <Sphere
-          src="#img"
           position={{ x: 5, y: 3, z: -10 }}
           ammo-body="type: static"
           ammo-shape="type: sphere"
@@ -121,11 +125,6 @@ export default function App(): JSX.Element {
           rotation={{ x: 0, y: 0, z: 180 }}
           scale={{ x: 3, y: 3, z: 3 }}
         />
-
-        <Assets>
-          <img src="/sample.jpeg" alt="" id="img" />
-        </Assets>
-
       </Scene>
       {
         !name && <NicknameModal socket={socket} setName={setName} />
