@@ -10,6 +10,7 @@ import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
 import './aframe/look-controls-touch-y-axis';
+import './aframe/joystick';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
@@ -84,6 +85,7 @@ export default function App(): JSX.Element {
         physics="driver: ammo"
         cursor="rayOrigin: mouse;"
         loading-screen="enabled: false"
+        joystick
       >
         {
           Object.entries(users).map(([id, { position }]) => (
