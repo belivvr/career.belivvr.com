@@ -1,5 +1,5 @@
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets,
+  Scene, Box, Plane, Camera, Cylinder, Sphere,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -117,7 +117,6 @@ export default function App(): JSX.Element {
         />
 
         <Sphere
-          src="#img"
           position={{ x: 5, y: 3, z: -10 }}
           ammo-body="type: static"
           ammo-shape="type: sphere"
@@ -126,11 +125,6 @@ export default function App(): JSX.Element {
           rotation={{ x: 0, y: 0, z: 180 }}
           scale={{ x: 3, y: 3, z: 3 }}
         />
-
-        <Assets>
-          <img src="/sample.jpeg" alt="" id="img" />
-        </Assets>
-
       </Scene>
       {
         !name && <NicknameModal socket={socket} setName={setName} />
