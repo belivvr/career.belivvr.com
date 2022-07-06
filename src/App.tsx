@@ -100,7 +100,6 @@ export default function App(): JSX.Element {
         <Camera
           position={{ x: 0, y: 0.8, z: 0 }}
           occupants
-          magicWindowTrackingEnabled={false}
         >
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"
