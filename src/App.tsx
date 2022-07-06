@@ -1,6 +1,5 @@
-import 'aframe-mirror';
 import {
-  Scene, Box, Plane, Camera, Cylinder,
+  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -35,6 +34,7 @@ export default function App(): JSX.Element {
   const [name, setName] = useState('');
   const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     socket
@@ -58,11 +58,23 @@ export default function App(): JSX.Element {
           return next;
         });
       });
+
+    AFRAME.registerComponent('click-open-modal', {
+      init() {
+        this.el.addEventListener('click', () => {
+          setIsOpenModal(true);
+        });
+      },
+    });
   }, []);
 
   return (
     <div>
-      <Scene physics="driver: ammo">
+      <Scene
+        physics="driver: ammo"
+        cursor="rayOrigin: mouse;"
+        loading-screen="enabled: false"
+      >
         {
           Object.entries(users).map(([id, { position }]) => (
             <Box
@@ -74,35 +86,62 @@ export default function App(): JSX.Element {
           ))
         }
         <Camera position={{ x: 0, y: 0.8, z: 0 }} occupants>
-          <Cylinder ammo-body="type: kinematic; emitCollisionEvents: true;" ammo-shape="type: cylinder" />
+          <Cylinder
+            ammo-body="type: kinematic; emitCollisionEvents: true;"
+            ammo-shape="type: cylinder"
+          />
         </Camera>
 
-        <Box
-          color="yellow"
-          position={{ x: 0, y: 10, z: -2 }}
-          ammo-body="type: dynamic"
-          ammo-shape="type: box"
-        />
         <Plane
           id="ground"
           width={1000}
           height={1000}
           color="transparent"
-          position={{ x: 0, y: 0, z: 0 }}
+          position={{ x: 0, y: -0.01, z: 0 }}
           rotation={{ x: -90, y: 0, z: 0 }}
           ammo-body="type: static"
           ammo-shape="type: mesh"
         />
 
-        <Plane
-          position={{ x: -1, y: 0.5, z: -8 }}
-          scale={{ x: 10, y: 10, z: 10 }}
-          mirror
+        <Box
+          color="red"
+          position={{ x: -5, y: 0.5, z: -10 }}
+          ammo-body="type: static"
+          ammo-shape="type: box"
+          click-open-modal
         />
+
+        <Sphere
+          src="#img"
+          position={{ x: 5, y: 3, z: -10 }}
+          ammo-body="type: static"
+          ammo-shape="type: sphere"
+          phiLength={180}
+          thetaStart={180}
+          rotation={{ x: 0, y: 0, z: 180 }}
+          scale={{ x: 3, y: 3, z: 3 }}
+        />
+
+        <Assets>
+          <img src="/sample.jpeg" alt="" id="img" />
+        </Assets>
+
       </Scene>
       {
         !name && <NicknameModal socket={socket} setName={setName} />
       }
+
+      <div
+        id="modal"
+        style={{
+          display: isOpenModal ? 'block' : 'none',
+          width: '100px',
+          height: '100px',
+          background: 'black',
+          position: 'absolute',
+          zIndex: 199999,
+        }}
+      />
 
       <Title>Message</Title>
 
