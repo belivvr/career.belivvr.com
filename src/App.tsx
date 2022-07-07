@@ -10,7 +10,7 @@ import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
-import UnrealModal from './components/Modal';
+import Modal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
@@ -22,7 +22,7 @@ const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera
 AFRAME.registerComponent('click-open-modal', {
   init() {
     this.el.addEventListener('click', () => {
-      document.querySelector('#modal').style.display = 'block';
+      document.querySelector('#modal').style.display = 'flex';
     });
   },
 });
@@ -31,7 +31,7 @@ AFRAME.registerComponent('detect-collision', {
   init() {
     this.el.addEventListener('collidestart', (e: any) => {
       if (e.detail.targetEl.id === 'npc') {
-        document.querySelector('#modal').style.display = 'block';
+        document.querySelector('#modal').style.display = 'flex';
       }
     });
   },
@@ -60,6 +60,7 @@ export default function App(): JSX.Element {
   const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const [unrealCareer, setUnrealCareer] = useState<string>('');
   const [webrtcCareer, setWebrtcCareer] = useState<string>('');
 
   useEffect(() => {
@@ -92,6 +93,9 @@ export default function App(): JSX.Element {
       }
     }, 100);
 
+    fetch('/unreal-career.md').then((res) => res.text()).then((text) => {
+      setUnrealCareer(text);
+    });
     fetch('/webrtc-career.txt').then((res) => res.text()).then((text) => {
       setWebrtcCareer(text);
     });
@@ -185,7 +189,7 @@ export default function App(): JSX.Element {
         !name && <NicknameModal socket={socket} setName={setName} />
       }
 
-      <UnrealModal />
+      <Modal>{unrealCareer}</Modal>
 
       <Title>Message</Title>
 
