@@ -1,6 +1,17 @@
 import 'aframe-troika-text';
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, AssetItem, GLTFModel, Entity,
+  Scene,
+  Box,
+  Plane,
+  Camera,
+  Cylinder,
+  Sphere,
+  Assets,
+  Light,
+  Sky,
+  AssetItem,
+  GLTFModel,
+  Entity,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -14,8 +25,10 @@ import Modal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
+import './aframe/billboard';
 import TroikaText from './aframe/TroikaText';
 import { randomNameGenerator } from './utils/name';
+import { chatOnSpeechBubble } from './utils/chat';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -71,14 +84,8 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     socket
-      .on('chat', (chat: ChatType) => {
-        setChats((prev) => ([
-          ...prev,
-          chat,
-        ]));
-      })
+      .on('chat', chatOnSpeechBubble)
       .on('all occupants', (data: { [id: string]: User }) => {
-        console.log(data);
         setUsers(data);
       })
       .on('occupants', ({
@@ -121,19 +128,20 @@ export default function App(): JSX.Element {
       >
         {
           Object.entries(users).map(([id, { name: userName, position, rotation }]) => (
-            <Entity key={id} position={position}>
+            <Entity key={id} id={id} position={position}>
               <TroikaText
                 value={userName}
                 fontSize="0.2"
                 position="0 0.1 0"
                 rotation={`0 ${rotation.y + 180} 0`}
+                outlineWidth="0.01"
+                billboard
               />
               <GLTFModel
-                id={id}
                 src="#avatar"
                 scale={{ x: 0.3, y: 0.3, z: 0.3 }}
                 position={{ x: 0, y: -0.4, z: 0 }}
-                rotation={{ x: 0, y: rotation.y + 90, z: rotation.x }}
+                rotation={{ x: 0, y: rotation.y + 90, z: rotation.x + 10 }}
               />
             </Entity>
           ))
@@ -201,6 +209,7 @@ export default function App(): JSX.Element {
         <Assets>
           <img src="/sky.webp" alt="" id="sky" />
           <img src="/ground.jpeg" alt="" id="ground" />
+          <img src="/speech.png" alt="" id="speech" />
           <AssetItem src="/avatar.glb" id="avatar" />
         </Assets>
       </Scene>
