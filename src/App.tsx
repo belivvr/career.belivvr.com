@@ -9,6 +9,7 @@ import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
+import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 
@@ -55,6 +56,7 @@ export default function App(): JSX.Element {
   const [name, setName] = useState('');
   const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     socket
@@ -78,10 +80,18 @@ export default function App(): JSX.Element {
           return next;
         });
       });
+
+    const interval = setInterval(() => {
+      if (document.querySelector('.a-enter-vr')) {
+        setLoading(false);
+        clearInterval(interval);
+      }
+    }, 100);
   }, []);
 
   return (
     <div>
+      {loading && <Loading />}
       <Scene
         physics="driver: ammo"
         cursor="rayOrigin: mouse;"
