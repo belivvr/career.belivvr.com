@@ -23,20 +23,45 @@ AFRAME.registerComponent('click-open-modal', {
 });
 
 AFRAME.registerComponent('detect-collision', {
+  attributes: {
+    prevZ: 0,
+    isCollide: false,
+  },
   init() {
     this.el.addEventListener('collidestart', (e: any) => {
+      this.attributes.prevZ = this.el.object3D.position.z;
+      this.attributes.isCollide = true;
+
       if (e.detail.targetEl.id === 'npc') {
         document.querySelector('#modal').style.display = 'block';
+
+        document.querySelector('#modal').classList.add('on');
       }
     });
+
+    this.el.addEventListener('collideend', () => {
+      this.attributes.isCollide = false;
+    });
   },
+  tick() {
+    const currentZ = this.el.object3D.position.z;
+
+    if (this.attributes.isCollide && this.attributes.prevZ > currentZ) {
+      this.el.object3D.position.z = this.attributes.prevZ;
+    }
+  },
+
 });
 
 AFRAME.registerComponent('occupants', {
   tick() {
     const { position } = this.el.object3D;
-
     socket.emit('occupants', { position });
+    const prevZ = position.z;
+
+    if (document.querySelector('#modal').classList.contains('on')) {
+      position.z = prevZ;
+    }
   },
 });
 
@@ -100,11 +125,11 @@ export default function App(): JSX.Element {
           position={{ x: 0, y: 0.8, z: 0 }}
           occupants
           magicWindowTrackingEnabled={false}
+          detect-collision
         >
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"
             ammo-shape="type: cylinder"
-            detect-collision
           />
         </Camera>
 
