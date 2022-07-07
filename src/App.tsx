@@ -1,6 +1,6 @@
 import 'aframe-troika-text';
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, AssetItem, GLTFModel,
+  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, AssetItem, GLTFModel, Entity,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -15,9 +15,11 @@ import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 import TroikaText from './aframe/TroikaText';
+import { randomNameGenerator } from './utils/name';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+let currentName = randomNameGenerator();
 
 AFRAME.registerComponent('click-open-modal', {
   init() {
@@ -42,7 +44,7 @@ AFRAME.registerComponent('occupants', {
     const { position } = this.el.object3D;
     const rotation = this.el.getAttribute('rotation');
 
-    socket.emit('occupants', { position, rotation });
+    socket.emit('occupants', { name: currentName, position, rotation });
   },
 });
 
@@ -53,12 +55,14 @@ type Vector3 = {
 };
 
 interface User {
+  name: string;
   position: Vector3;
   rotation: Vector3;
 }
 
 export default function App(): JSX.Element {
-  const [name, setName] = useState('');
+  const [name, setName] = useState(currentName);
+  currentName = name;
   const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
   const [loading, setLoading] = useState<boolean>(true);
@@ -74,10 +78,13 @@ export default function App(): JSX.Element {
         ]));
       })
       .on('all occupants', (data: { [id: string]: User }) => {
+        console.log(data);
         setUsers(data);
       })
-      .on('occupants', ({ id, position, rotation }) => {
-        setUsers((prev) => ({ ...prev, [id]: { position, rotation } }));
+      .on('occupants', ({
+        id, name: userName, position, rotation,
+      }) => {
+        setUsers((prev) => ({ ...prev, [id]: { name: userName, position, rotation } }));
       })
       .on('leave', (id) => {
         setUsers((prev) => {
@@ -113,15 +120,22 @@ export default function App(): JSX.Element {
         joystick
       >
         {
-          Object.entries(users).map(([id, { position, rotation }]) => (
-            <GLTFModel
-              key={id}
-              id={id}
-              src="#avatar"
-              scale={{ x: 0.3, y: 0.3, z: 0.3 }}
-              position={{ ...position, y: position.y - 0.4 }}
-              rotation={{ x: 0, y: rotation.y + 90, z: rotation.x }}
-            />
+          Object.entries(users).map(([id, { name: userName, position, rotation }]) => (
+            <Entity key={id} position={position}>
+              <TroikaText
+                value={userName}
+                fontSize="0.2"
+                position="0 0.1 0"
+                rotation={`0 ${rotation.y + 180} 0`}
+              />
+              <GLTFModel
+                id={id}
+                src="#avatar"
+                scale={{ x: 0.3, y: 0.3, z: 0.3 }}
+                position={{ x: 0, y: -0.4, z: 0 }}
+                rotation={{ x: 0, y: rotation.y + 90, z: rotation.x }}
+              />
+            </Entity>
           ))
         }
         <Camera
@@ -173,7 +187,7 @@ export default function App(): JSX.Element {
           side="double"
           color="black"
         >
-          <TroikaText value={webrtcCareer} />
+          <TroikaText value={webrtcCareer} curveRadius="1" />
         </Sphere>
 
         <Sky
