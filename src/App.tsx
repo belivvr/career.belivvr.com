@@ -151,6 +151,7 @@ export default function App(): JSX.Element {
           thetaStart={180}
           rotation={{ x: 0, y: 0, z: 180 }}
           scale={{ x: 3, y: 3, z: 3 }}
+          side="double"
         />
       </Scene>
       {
