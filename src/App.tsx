@@ -40,8 +40,9 @@ AFRAME.registerComponent('detect-collision', {
 AFRAME.registerComponent('occupants', {
   tick() {
     const { position } = this.el.object3D;
+    const rotation = this.el.getAttribute('rotation');
 
-    socket.emit('occupants', { position });
+    socket.emit('occupants', { position, rotation });
   },
 });
 
@@ -53,6 +54,7 @@ type Vector3 = {
 
 interface User {
   position: Vector3;
+  rotation: Vector3;
 }
 
 export default function App(): JSX.Element {
@@ -74,8 +76,8 @@ export default function App(): JSX.Element {
       .on('all occupants', (data: { [id: string]: User }) => {
         setUsers(data);
       })
-      .on('occupants', ({ id, position }) => {
-        setUsers((prev) => ({ ...prev, [id]: { position } }));
+      .on('occupants', ({ id, position, rotation }) => {
+        setUsers((prev) => ({ ...prev, [id]: { position, rotation } }));
       })
       .on('leave', (id) => {
         setUsers((prev) => {
@@ -111,14 +113,14 @@ export default function App(): JSX.Element {
         joystick
       >
         {
-          Object.entries(users).map(([id, { position }]) => (
+          Object.entries(users).map(([id, { position, rotation }]) => (
             <GLTFModel
               key={id}
               id={id}
               src="#avatar"
               scale={{ x: 0.3, y: 0.3, z: 0.3 }}
-              position={{ x: position.x, y: position.y - 0.4, z: position.z }}
-              rotation={{ x: 0, y: 90, z: 0 }}
+              position={{ ...position, y: position.y - 0.4 }}
+              rotation={{ x: 0, y: rotation.y + 90, z: rotation.x }}
             />
           ))
         }
