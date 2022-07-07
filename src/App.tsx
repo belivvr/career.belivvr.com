@@ -1,5 +1,5 @@
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere,
+  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -124,7 +124,6 @@ export default function App(): JSX.Element {
         </Camera>
 
         <Plane
-          id="ground"
           width={1000}
           height={1000}
           color="transparent"
@@ -132,6 +131,8 @@ export default function App(): JSX.Element {
           rotation={{ x: -90, y: 0, z: 0 }}
           ammo-body="type: static;"
           ammo-shape="type: mesh"
+          src="#ground"
+          repeat={{ x: 600, y: 600 }}
         />
 
         <Box
@@ -144,15 +145,29 @@ export default function App(): JSX.Element {
         />
 
         <Sphere
-          position={{ x: 5, y: 3, z: -10 }}
+          position={{ x: 5, y: 2, z: -10 }}
           ammo-body="type: static"
           ammo-shape="type: sphere"
           phiLength={180}
           thetaStart={180}
-          rotation={{ x: 0, y: 0, z: 180 }}
+          rotation={{ x: 30, y: -45, z: 180 }}
           scale={{ x: 3, y: 3, z: 3 }}
           side="double"
+          color="black"
         />
+
+        <Sky
+          src="#sky"
+          scale={{ x: 0.1, y: 0.1, z: 0.1 }}
+          position={{ x: 0, y: 10, z: 0 }}
+        />
+
+        <Light type="ambient" />
+
+        <Assets>
+          <img src="/sky.webp" alt="" id="sky" />
+          <img src="/ground.jpeg" alt="" id="ground" />
+        </Assets>
       </Scene>
       {
         !name && <NicknameModal socket={socket} setName={setName} />
