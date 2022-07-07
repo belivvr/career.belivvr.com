@@ -13,17 +13,37 @@
 
 .body {
   position: relative;  
+  overflow: auto;
   width: 90%;
   max-width: 1200px;
-  padding: 10px;
+  max-height: 90%;
+  padding: 0 20px 60px;
   border: 1px solid #000;
   background: #fff;
 }
 
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.xIcon {
+  position: sticky;
+  top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-bottom: 40px;
   border: none;
   background: none;
+}
+
+.closeButton {
+  display: block;
+  margin: 40px auto 0;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(244, 67, 54);
+  border: none;
+  border-radius: 4px;
+}
+
+.title {
+  margin-bottom: 20px;
 }

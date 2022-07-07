@@ -1,9 +1,10 @@
 import { useRef } from 'react';
+import Markdown from 'react-markdown';
 
 import style from './modal.module.css';
 
 interface Props {
-  children: React.ReactNode;
+  children: string;
 }
 
 export default function Modal({ children }: Props) {
@@ -17,7 +18,7 @@ export default function Modal({ children }: Props) {
     >
       <div className={style.body}>
         <button
-          className={`${style.closeButton} material-icons`}
+          className={`${style.xIcon} material-icons`}
           type="button"
           onClick={() => {
             ref.current!.style.display = 'none';
@@ -26,7 +27,19 @@ export default function Modal({ children }: Props) {
           close
         </button>
 
-        {children}
+        <Markdown className="markdown-body">
+          {children}
+        </Markdown>
+
+        <button
+          className={style.closeButton}
+          type="button"
+          onClick={() => {
+            ref.current!.style.display = 'none';
+          }}
+        >
+          close
+        </button>
       </div>
     </div>
   );
