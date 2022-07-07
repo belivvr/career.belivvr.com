@@ -5,7 +5,7 @@ const closeModalHandler = () => {
 };
 
 const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -20,23 +20,11 @@ const Inner = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1100px;
-  height: 100px;
+  width: 80%;
+  maxWidht: 1200px;
   padding: 10px;
   border: 2px solid #000;
   background: #fff;
-
-  @media (min-width: 320px){
-    width: 300px;
-  }
-
-  @media (min-width: 600px){
-    width: 500px;
-  }
-
-  @media (min-width: 1024px){
-    width: 900px;
-  }
 `;
 
 const Button = styled.button`
