@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@belivvr/aframe-react": "^0.4.2",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "aframe": "^1.3.0",
     "aframe-mirror": "^1.0.0",
     "lodash": "^4.17.21",

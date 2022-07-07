@@ -9,6 +9,7 @@ import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
+import UnrealModal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
@@ -28,7 +29,7 @@ AFRAME.registerComponent('detect-collision', {
   init() {
     this.el.addEventListener('collidestart', (e: any) => {
       if (e.detail.targetEl.id === 'npc') {
-        console.log('hit');
+        document.querySelector('#modal').style.display = 'block';
       }
     });
   },
@@ -156,17 +157,7 @@ export default function App(): JSX.Element {
         !name && <NicknameModal socket={socket} setName={setName} />
       }
 
-      <div
-        id="modal"
-        style={{
-          display: 'none',
-          width: '100px',
-          height: '100px',
-          background: 'black',
-          position: 'absolute',
-          zIndex: 199999,
-        }}
-      />
+      <UnrealModal />
 
       <Title>Message</Title>
 
