@@ -9,7 +9,7 @@ import NicknameModal from './components/Nickname';
 import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
 import Title from './components/Title';
-import UnrealModal from './components/Modal';
+import Modal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
@@ -20,7 +20,7 @@ const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera
 AFRAME.registerComponent('click-open-modal', {
   init() {
     this.el.addEventListener('click', () => {
-      document.querySelector('#modal').style.display = 'block';
+      document.querySelector('#modal').style.display = 'flex';
     });
   },
 });
@@ -29,7 +29,7 @@ AFRAME.registerComponent('detect-collision', {
   init() {
     this.el.addEventListener('collidestart', (e: any) => {
       if (e.detail.targetEl.id === 'npc') {
-        document.querySelector('#modal').style.display = 'block';
+        document.querySelector('#modal').style.display = 'flex';
       }
     });
   },
@@ -176,7 +176,7 @@ export default function App(): JSX.Element {
         !name && <NicknameModal socket={socket} setName={setName} />
       }
 
-      <UnrealModal />
+      <Modal>aaa</Modal>
 
       <Title>Message</Title>
 
