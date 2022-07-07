@@ -58,6 +58,7 @@ export default function App(): JSX.Element {
   const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const [unrealCareer, setUnrealCareer] = useState<string>('');
 
   useEffect(() => {
     socket
@@ -88,6 +89,10 @@ export default function App(): JSX.Element {
         clearInterval(interval);
       }
     }, 100);
+
+    fetch('/unreal-career.md').then((res) => res.text()).then((text) => {
+      setUnrealCareer(text);
+    });
   }, []);
 
   return (
@@ -176,7 +181,7 @@ export default function App(): JSX.Element {
         !name && <NicknameModal socket={socket} setName={setName} />
       }
 
-      <Modal>aaa</Modal>
+      <Modal>{unrealCareer}</Modal>
 
       <Title>Message</Title>
 
