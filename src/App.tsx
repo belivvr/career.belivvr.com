@@ -115,6 +115,9 @@ export default function App(): JSX.Element {
           lookControls={{
             magicWindowTrackingEnabled: !isMobileDevice,
           }}
+          wasdControls={{
+            acceleration: 10,
+          }}
         >
           <Cylinder
             ammo-body="type: kinematic; emitCollisionEvents: true;"
