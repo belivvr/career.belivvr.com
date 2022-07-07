@@ -1,6 +1,6 @@
 import 'aframe-troika-text';
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, Entity,
+  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, AssetItem, GLTFModel,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -112,11 +112,13 @@ export default function App(): JSX.Element {
       >
         {
           Object.entries(users).map(([id, { position }]) => (
-            <Box
+            <GLTFModel
               key={id}
               id={id}
-              color="red"
-              position={position}
+              src="#avatar"
+              scale={{ x: 0.3, y: 0.3, z: 0.3 }}
+              position={{ x: position.x, y: position.y - 0.4, z: position.z }}
+              rotation={{ x: 0, y: 90, z: 0 }}
             />
           ))
         }
@@ -183,6 +185,7 @@ export default function App(): JSX.Element {
         <Assets>
           <img src="/sky.webp" alt="" id="sky" />
           <img src="/ground.jpeg" alt="" id="ground" />
+          <AssetItem src="/avatar.glb" id="avatar" />
         </Assets>
       </Scene>
       {
