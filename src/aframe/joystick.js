@@ -37,8 +37,8 @@ if (isMobileDevice) {
         const xVector = Math.cos(vector);
         const yVector = Math.sin(vector);
 
-        this.moveX = (force / 15) * xVector;
-        this.moveZ = (force / 15) * yVector;
+        this.moveX = (force / 30) * xVector;
+        this.moveZ = (force / 30) * yVector;
       });
 
       manager.on('end', () => {
