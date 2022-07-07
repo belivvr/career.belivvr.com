@@ -1,5 +1,6 @@
+import 'aframe-troika-text';
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky,
+  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, Entity,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -13,6 +14,7 @@ import Modal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
+import TroikaText from './aframe/TroikaText';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -59,6 +61,7 @@ export default function App(): JSX.Element {
   const [users, setUsers] = useState<{ [id: string]: User }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [unrealCareer, setUnrealCareer] = useState<string>('');
+  const [webrtcCareer, setWebrtcCareer] = useState<string>('');
 
   useEffect(() => {
     socket
@@ -92,6 +95,9 @@ export default function App(): JSX.Element {
 
     fetch('/unreal-career.md').then((res) => res.text()).then((text) => {
       setUnrealCareer(text);
+    });
+    fetch('/webrtc-career.txt').then((res) => res.text()).then((text) => {
+      setWebrtcCareer(text);
     });
   }, []);
 
@@ -158,11 +164,13 @@ export default function App(): JSX.Element {
           ammo-shape="type: sphere"
           phiLength={180}
           thetaStart={180}
-          rotation={{ x: 30, y: -45, z: 180 }}
+          rotation={{ x: 30, y: -45, z: 0 }}
           scale={{ x: 3, y: 3, z: 3 }}
           side="double"
           color="black"
-        />
+        >
+          <TroikaText value={webrtcCareer} />
+        </Sphere>
 
         <Sky
           src="#sky"
