@@ -12,6 +12,9 @@ import { io } from 'socket.io-client';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 import './aframe/billboard';
+import './aframe/click-open-modal';
+import './aframe/detect-collision';
+import occupants from './aframe/occupants';
 
 import type { User } from './type/User';
 
@@ -31,32 +34,7 @@ import Me from './components/Me';
 const socket = io(import.meta.env.VITE_API_URL);
 let currentName = randomNameGenerator();
 
-AFRAME.registerComponent('click-open-modal', {
-  init() {
-    this.el.addEventListener('click', () => {
-      document.querySelector('#modal').style.display = 'flex';
-    });
-  },
-});
-
-AFRAME.registerComponent('detect-collision', {
-  init() {
-    this.el.addEventListener('collidestart', (e: any) => {
-      if (e.detail.targetEl.id === 'npc') {
-        document.querySelector('#modal').style.display = 'flex';
-      }
-    });
-  },
-});
-
-AFRAME.registerComponent('occupants', {
-  tick() {
-    const { position } = this.el.object3D;
-    const rotation = this.el.getAttribute('rotation');
-
-    socket.emit('occupants', { name: currentName, position, rotation });
-  },
-});
+occupants({ socket, name: currentName });
 
 export default function App(): JSX.Element {
   const [name, setName] = useState(currentName);
@@ -97,8 +75,9 @@ export default function App(): JSX.Element {
   }, []);
 
   return (
-    <div>
+    <>
       {loading && <Loading />}
+
       <Scene
         renderer={{
           colorManagement: true,
@@ -137,6 +116,7 @@ export default function App(): JSX.Element {
           <AssetItem src="/road_block.glb" id="boundary" />
         </Assets>
       </Scene>
+
       <Modal>{unrealCareer}</Modal>
 
       <MessageForm
@@ -147,6 +127,6 @@ export default function App(): JSX.Element {
           currentName = value;
         }}
       />
-    </div>
+    </>
   );
 }
