@@ -28,6 +28,7 @@ import Boundary from './components/Boundary';
 import NPC from './components/NPC';
 import CareerSphere from './components/CareerSphere';
 import Users from './components/Users';
+import Ground from './components/Ground';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -129,17 +130,7 @@ export default function App(): JSX.Element {
           />
         </Camera>
 
-        <Plane
-          width={1000}
-          height={1000}
-          color="transparent"
-          position={{ x: 0, y: -0.01, z: 0 }}
-          rotation={{ x: -90, y: 0, z: 0 }}
-          ammo-body="type: static;"
-          ammo-shape="type: mesh"
-          src="#ground"
-          repeat={{ x: 600, y: 600 }}
-        />
+        <Ground />
 
         <NPC />
         <CareerSphere />
