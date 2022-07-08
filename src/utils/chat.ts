@@ -15,7 +15,7 @@ export function chatOnSpeechBubble({ id, message }: ChatPayload) {
   const text = document.createElement('a-troika-text');
   text.className = 'chat';
   text.setAttribute('value', message);
-  text.setAttribute('position', '0.05 0.8 0');
+  text.setAttribute('position', '0.05 0.9 0');
   text.setAttribute('billboard', '');
   text.setAttribute('font', 'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff');
   text.setAttribute('font-size', '0.1');
@@ -25,9 +25,9 @@ export function chatOnSpeechBubble({ id, message }: ChatPayload) {
 
   const speech = document.createElement('a-image');
   speech.setAttribute('src', '#speech');
-  speech.setAttribute('position', '0 0.7 0');
+  speech.setAttribute('position', '0 0.8 0');
   speech.setAttribute('billboard', '');
-  speech.setAttribute('opacity', '0.5');
+  speech.setAttribute('opacity', '0.3');
   speech.className = 'speech';
 
   user.appendChild(text);

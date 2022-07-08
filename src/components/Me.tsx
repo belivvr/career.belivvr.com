@@ -5,7 +5,7 @@ const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera
 export default function Me(): JSX.Element {
   return (
     <Camera
-      position={{ x: 0, y: 0.8, z: 0 }}
+      position={{ x: 0, y: 1.6, z: 0 }}
       occupants
       lookControls={{
         magicWindowTrackingEnabled: !isMobileDevice,
