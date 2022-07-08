@@ -4,6 +4,8 @@ interface Props {
   position?: string;
   rotation?: string;
   curveRadius?: string;
+  outlineWidth?: string;
+  billboard?: boolean;
 }
 
 export default function TroikaText({
@@ -12,6 +14,8 @@ export default function TroikaText({
   position = '0 0 0',
   rotation = '0 0 0',
   curveRadius = '0',
+  outlineWidth = '0',
+  billboard = false,
 }: Props) {
   return (
     // @ts-ignore
@@ -22,6 +26,8 @@ export default function TroikaText({
       font-size={fontSize}
       position={position}
       rotation={rotation}
+      outline-width={outlineWidth}
+      billboard={billboard}
     />
   );
 }
