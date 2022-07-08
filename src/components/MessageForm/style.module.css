@@ -1,0 +1,46 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 9999;
+  bottom: 10px;
+  left: 50%;
+  height: 56px;
+  transform: translateX(-50%);
+}
+
+.form input {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.form > div {
+  margin-right: 10px;
+}
+
+.button {
+  height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .form {
+    flex-direction: column;
+    align-items: flex-end;
+    left: inherit;
+    right: 10px;
+    width: 180px;
+    height: auto;
+    transform: none;
+  }
+
+  .form > div {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .button {
+    width: 100%;
+    height: auto;
+  }
+}
