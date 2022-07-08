@@ -1,42 +1,55 @@
-import { useRef } from 'react';
-import { ChatType } from '../../type/chat';
+import { Box, Button, TextField } from '@mui/material';
+import { useState } from 'react';
 
-type CallbackType = (prev: ChatType[]) => ChatType[];
+import style from './style.module.css';
 
 type Props = {
-  socket: any,
-  setChats: (prev: CallbackType) => void,
-  name: string
+  socket: any;
+  name: string;
+  setName: (name: string) => void;
 };
 
-export default function MessageForm({ socket, setChats, name }: Props) {
-  const input = useRef<HTMLInputElement>(null);
+export default function MessageForm({ socket, name, setName }: Props) {
+  const [message, setMessage] = useState<string>('');
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    socket.emit('chat', message);
 
-    (Array.from(formData.values()) as string[]).forEach((message) => {
-      socket.emit('chat', message);
-
-      setChats((prev: ChatType[]) => ([
-        ...prev,
-        {
-          id: socket.id,
-          name,
-          message,
-        },
-      ]));
-    });
-
-    input.current!.value = '';
+    setMessage('');
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <input type="text" name="text" ref={input} />
-      <button type="submit"> Submit</button>
-    </form>
+    <Box
+      className={style.form}
+      component="form"
+      onSubmit={submitHandler}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField
+        required
+        error={name === ''}
+        type="text"
+        label="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <TextField
+        type="text"
+        label="Chat"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <Button
+        className={style.button}
+        type="submit"
+        variant="contained"
+        size="large"
+      >
+        Submit
+      </Button>
+    </Box>
   );
 }
