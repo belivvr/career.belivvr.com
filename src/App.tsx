@@ -25,7 +25,7 @@ import Boundary from './components/Boundary';
 import { randomNameGenerator } from './utils/name';
 import { chatOnSpeechBubble } from './utils/chat';
 import NPC from './components/NPC';
-import CareerStone from './components/CareerStone';
+import CareerSphere from './components/CareerSphere';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -171,7 +171,7 @@ export default function App(): JSX.Element {
         />
 
         <NPC />
-        <CareerStone />
+        <CareerSphere />
 
         <Sky
           src="#sky"
