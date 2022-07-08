@@ -4,7 +4,6 @@ import {
   Plane,
   Camera,
   Cylinder,
-  Sphere,
   Assets,
   Light,
   Sky,
@@ -26,6 +25,7 @@ import Boundary from './components/Boundary';
 import { randomNameGenerator } from './utils/name';
 import { chatOnSpeechBubble } from './utils/chat';
 import NPC from './components/NPC';
+import CareerStone from './components/CareerStone';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -75,7 +75,6 @@ export default function App(): JSX.Element {
   const [users, setUsers] = useState<{ [id: string]: User }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [unrealCareer, setUnrealCareer] = useState<string>('');
-  const [webrtcCareer, setWebrtcCareer] = useState<string>('');
 
   useEffect(() => {
     socket
@@ -106,9 +105,6 @@ export default function App(): JSX.Element {
 
     fetch('/unreal-career.md').then((res) => res.text()).then((text) => {
       setUnrealCareer(text);
-    });
-    fetch('/webrtc-career.txt').then((res) => res.text()).then((text) => {
-      setWebrtcCareer(text);
     });
   }, []);
 
@@ -175,20 +171,7 @@ export default function App(): JSX.Element {
         />
 
         <NPC />
-
-        <Sphere
-          position={{ x: 5, y: 2, z: -10 }}
-          ammo-body="type: static"
-          ammo-shape="type: sphere"
-          phiLength={180}
-          thetaStart={180}
-          rotation={{ x: 30, y: -45, z: 0 }}
-          scale={{ x: 3, y: 3, z: 3 }}
-          side="double"
-          color="black"
-        >
-          <TroikaText value={webrtcCareer} curveRadius="1" />
-        </Sphere>
+        <CareerStone />
 
         <Sky
           src="#sky"
