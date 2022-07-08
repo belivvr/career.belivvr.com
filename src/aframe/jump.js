@@ -1,8 +1,9 @@
 AFRAME.registerComponent('jump', {
   member: {
     isJump: false,
-    jumpTime: 0,
+    jumpTime: 60,
     jumpPower: 0.065,
+    jumpVelocity: 0.002,
   },
   init() {
     window.addEventListener('keydown', (e) => this.keydownHanlder(e));
@@ -15,26 +16,23 @@ AFRAME.registerComponent('jump', {
   },
   setJumpUpAnimation() {
     const jumpUpAnimation = setInterval(() => {
-      this.member.jumpTime += 1;
-
       this.el.object3D.position.y += this.member.jumpPower;
-
-      if (this.member.jumpTime === 20) {
+      this.member.jumpPower -= this.member.jumpVelocity;
+      if (this.member.jumpPower < 0) {
         clearInterval(jumpUpAnimation);
-        this.member.jumpTime = 0;
         this.setJumpDownAnimation();
       }
     }, 10);
   },
   setJumpDownAnimation() {
     const jumpDownAnimation = setInterval(() => {
-      this.member.jumpTime += 1;
-
       this.el.object3D.position.y -= this.member.jumpPower;
-      if (this.member.jumpTime === 20) {
+      this.member.jumpPower += this.member.jumpVelocity;
+
+      if (this.member.jumpPower > 0.065) {
         clearInterval(jumpDownAnimation);
-        this.member.jumpTime = 0;
         this.member.isJump = false;
+        this.member.jumpPower = 0.065;
       }
     }, 10);
   },
