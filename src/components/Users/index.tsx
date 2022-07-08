@@ -10,6 +10,7 @@ export default function Users({ users } : Props): JSX.Element {
     <>
       {Object.entries(users).map(([id, { name, position, rotation }]) => (
         <User
+          key={id}
           id={id}
           name={name}
           position={position}

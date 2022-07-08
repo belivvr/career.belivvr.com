@@ -113,7 +113,7 @@ export default function App(): JSX.Element {
           <img src="/ground.jpeg" alt="" id="ground" />
           <img src="/speech.png" alt="" id="speech" />
           <AssetItem src="/wizard.glb" id="wizard" />
-          <AssetItem src="/avatar.glb" id="avatar" />
+          <AssetItem src="/ghost/scene.gltf" id="avatar" />
           <AssetItem src="/road_block.glb" id="boundary" />
         </Assets>
       </Scene>
