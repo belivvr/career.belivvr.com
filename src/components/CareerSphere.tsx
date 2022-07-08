@@ -29,6 +29,7 @@ export default function CareerSphere(): JSX.Element {
       rotation={{ x: 0, y: -45, z: 0 }}
       scale={{ x: 2, y: 2, z: 2 }}
       openEnded={1}
+      height={2}
       side="double"
       color="black"
     >
@@ -36,20 +37,20 @@ export default function CareerSphere(): JSX.Element {
         value={left}
         curveRadius="1"
         rotation="0 54 0"
-        position="-0.8 0 -0.55"
+        position="-0.8 0.3 -0.55"
         maxWidth="1"
       />
       <TroikaText
         value={center}
         curveRadius="1"
-        position="0 0 -0.99"
+        position="0 0.3 -0.99"
         maxWidth="1"
       />
       <TroikaText
         value={right}
         curveRadius="1"
         rotation="0 -60 0"
-        position="0.8 0 -0.5"
+        position="0.8 0.3 -0.5"
         maxWidth="1"
       />
     </Cylinder>
