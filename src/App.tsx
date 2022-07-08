@@ -1,4 +1,5 @@
 import 'aframe-troika-text';
+import 'aframe-mirror';
 import {
   Scene,
   Assets,
