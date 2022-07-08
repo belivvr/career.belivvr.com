@@ -1,74 +1,40 @@
 import 'aframe-troika-text';
 import {
   Scene,
-  Plane,
-  Camera,
-  Cylinder,
   Assets,
   Light,
   Sky,
   AssetItem,
-  GLTFModel,
-  Entity,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-import MessageForm from './components/MessageForm';
-import Modal from './components/Modal';
-import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 import './aframe/billboard';
-import TroikaText from './aframe/TroikaText';
-import Boundary from './components/Boundary';
+import './aframe/click-open-modal';
+import './aframe/detect-collision';
+import occupants from './aframe/occupants';
+
+import type { User } from './type/User';
+
 import { randomNameGenerator } from './utils/name';
 import { chatOnSpeechBubble } from './utils/chat';
+
+import MessageForm from './components/MessageForm';
+import Modal from './components/Modal';
+import Loading from './components/Loading';
+import Boundary from './components/Boundary';
 import NPC from './components/NPC';
 import CareerSphere from './components/CareerSphere';
+import Users from './components/Users';
+import Ground from './components/Ground';
+import Me from './components/Me';
 
 const socket = io(import.meta.env.VITE_API_URL);
-const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 let currentName = randomNameGenerator();
 
-AFRAME.registerComponent('click-open-modal', {
-  init() {
-    this.el.addEventListener('click', () => {
-      document.querySelector('#modal').style.display = 'flex';
-    });
-  },
-});
-
-AFRAME.registerComponent('detect-collision', {
-  init() {
-    this.el.addEventListener('collidestart', (e: any) => {
-      if (e.detail.targetEl.id === 'npc') {
-        document.querySelector('#modal').style.display = 'flex';
-      }
-    });
-  },
-});
-
-AFRAME.registerComponent('occupants', {
-  tick() {
-    const { position } = this.el.object3D;
-    const rotation = this.el.getAttribute('rotation');
-
-    socket.emit('occupants', { name: currentName, position, rotation });
-  },
-});
-
-type Vector3 = {
-  x: number;
-  y: number;
-  z: number;
-};
-
-interface User {
-  name: string;
-  position: Vector3;
-  rotation: Vector3;
-}
+occupants({ socket, name: currentName });
 
 export default function App(): JSX.Element {
   const [name, setName] = useState(currentName);
@@ -76,25 +42,26 @@ export default function App(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [unrealCareer, setUnrealCareer] = useState<string>('');
 
+  const updateUser = ({
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    id, name, position, rotation,
+  }: any) => setUsers((prev) => ({ ...prev, [id]: { name, position, rotation } }));
+
+  const removeUser = (id: string) => {
+    setUsers((prev) => {
+      const next = prev;
+      delete next[id];
+
+      return next;
+    });
+  };
+
   useEffect(() => {
     socket
       .on('chat', chatOnSpeechBubble)
-      .on('all occupants', (data: { [id: string]: User }) => {
-        setUsers(data);
-      })
-      .on('occupants', ({
-        id, name: userName, position, rotation,
-      }) => {
-        setUsers((prev) => ({ ...prev, [id]: { name: userName, position, rotation } }));
-      })
-      .on('leave', (id) => {
-        setUsers((prev) => {
-          const next = prev;
-          delete next[id];
-
-          return next;
-        });
-      });
+      .on('all occupants', setUsers)
+      .on('occupants', updateUser)
+      .on('leave', removeUser);
 
     const interval = setInterval(() => {
       if (document.querySelector('.a-enter-vr')) {
@@ -109,8 +76,9 @@ export default function App(): JSX.Element {
   }, []);
 
   return (
-    <div>
+    <>
       {loading && <Loading />}
+
       <Scene
         renderer={{
           colorManagement: true,
@@ -121,54 +89,11 @@ export default function App(): JSX.Element {
         loading-screen="enabled: false"
         joystick
       >
-        {
-          Object.entries(users).map(([id, { name: userName, position, rotation }]) => (
-            <Entity key={id} id={id} position={position}>
-              <TroikaText
-                value={userName}
-                fontSize="0.2"
-                position="0 0.1 0"
-                rotation={`0 ${rotation.y + 180} 0`}
-                outlineWidth="0.01"
-                billboard
-              />
-              <GLTFModel
-                src="#avatar"
-                scale={{ x: 0.3, y: 0.3, z: 0.3 }}
-                position={{ x: 0, y: -0.4, z: 0 }}
-                rotation={{ x: 0, y: rotation.y + 90, z: rotation.x + 10 }}
-              />
-            </Entity>
-          ))
-        }
-        <Camera
-          position={{ x: 0, y: 0.8, z: 0 }}
-          occupants
-          lookControls={{
-            magicWindowTrackingEnabled: !isMobileDevice,
-          }}
-          wasdControls={{
-            acceleration: 10,
-          }}
-        >
-          <Cylinder
-            ammo-body="type: kinematic; emitCollisionEvents: true;"
-            ammo-shape="type: cylinder"
-            detect-collision
-          />
-        </Camera>
+        <Me />
 
-        <Plane
-          width={1000}
-          height={1000}
-          color="transparent"
-          position={{ x: 0, y: -0.01, z: 0 }}
-          rotation={{ x: -90, y: 0, z: 0 }}
-          ammo-body="type: static;"
-          ammo-shape="type: mesh"
-          src="#ground"
-          repeat={{ x: 600, y: 600 }}
-        />
+        <Users users={users} />
+
+        <Ground />
 
         <NPC />
         <CareerSphere />
@@ -192,6 +117,7 @@ export default function App(): JSX.Element {
           <AssetItem src="/road_block.glb" id="boundary" />
         </Assets>
       </Scene>
+
       <Modal>{unrealCareer}</Modal>
 
       <MessageForm
@@ -202,6 +128,6 @@ export default function App(): JSX.Element {
           currentName = value;
         }}
       />
-    </div>
+    </>
   );
 }
