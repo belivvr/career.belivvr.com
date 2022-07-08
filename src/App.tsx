@@ -42,25 +42,26 @@ export default function App(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [unrealCareer, setUnrealCareer] = useState<string>('');
 
+  const updateUser = ({
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    id, name, position, rotation,
+  }: any) => setUsers((prev) => ({ ...prev, [id]: { name, position, rotation } }));
+
+  const removeUser = (id: string) => {
+    setUsers((prev) => {
+      const next = prev;
+      delete next[id];
+
+      return next;
+    });
+  };
+
   useEffect(() => {
     socket
       .on('chat', chatOnSpeechBubble)
-      .on('all occupants', (data: { [id: string]: User }) => {
-        setUsers(data);
-      })
-      .on('occupants', ({
-        id, name: userName, position, rotation,
-      }) => {
-        setUsers((prev) => ({ ...prev, [id]: { name: userName, position, rotation } }));
-      })
-      .on('leave', (id) => {
-        setUsers((prev) => {
-          const next = prev;
-          delete next[id];
-
-          return next;
-        });
-      });
+      .on('all occupants', setUsers)
+      .on('occupants', updateUser)
+      .on('leave', removeUser);
 
     const interval = setInterval(() => {
       if (document.querySelector('.a-enter-vr')) {
