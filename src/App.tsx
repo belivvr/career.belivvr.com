@@ -30,6 +30,7 @@ import CareerSphere from './components/CareerSphere';
 import Users from './components/Users';
 import Ground from './components/Ground';
 import Me from './components/Me';
+import Milestone from './components/Milestone';
 
 const socket = io(import.meta.env.VITE_API_URL);
 let currentName = randomNameGenerator();
@@ -97,6 +98,8 @@ export default function App(): JSX.Element {
 
         <NPC />
         <CareerSphere />
+
+        <Milestone />
 
         <Sky
           src="#sky"

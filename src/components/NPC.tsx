@@ -6,7 +6,7 @@ export default function NPC(): JSX.Element {
   return (
     <Entity
       click-open-modal
-      position={{ x: -3, y: 2, z: -3 }}
+      position={{ x: -4, y: 2, z: -5 }}
       ammo-body="type: static;"
       ammo-shape="type: sphere; fit: manual; sphereRadius: 2;"
       id="npc"
@@ -15,7 +15,7 @@ export default function NPC(): JSX.Element {
         id="npc"
         src="#wizard"
         position={{ x: 0, y: -0.85, z: 0 }}
-        rotation={{ x: 0, y: 45, z: 0 }}
+        rotation={{ x: 0, y: 60, z: 0 }}
         scale={{ x: 0.2, y: 0.2, z: 0.2 }}
       />
       <Image

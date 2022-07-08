@@ -15,6 +15,10 @@ export default function MessageForm({ socket, name, setName }: Props) {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (message === '') {
+      return;
+    }
+
     socket.emit('chat', message);
 
     setMessage('');

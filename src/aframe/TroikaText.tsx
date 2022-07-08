@@ -6,6 +6,7 @@ interface Props {
   curveRadius?: string;
   outlineWidth?: string;
   maxWidth?: string;
+  align?: string;
   billboard?: boolean;
 }
 
@@ -17,6 +18,7 @@ export default function TroikaText({
   curveRadius = '0',
   outlineWidth = '0',
   maxWidth = 'infinity',
+  align = 'left',
   billboard = false,
 }: Props) {
   return (
@@ -31,6 +33,7 @@ export default function TroikaText({
       outline-width={outlineWidth}
       billboard={billboard}
       max-width={maxWidth}
+      align={align}
       overflow-rap="break-word"
     />
   );

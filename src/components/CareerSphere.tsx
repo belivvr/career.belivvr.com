@@ -21,7 +21,7 @@ export default function CareerSphere(): JSX.Element {
 
   return (
     <Cylinder
-      position={{ x: 3, y: 1, z: -3 }}
+      position={{ x: 4, y: 1, z: -5 }}
       ammo-body="type: static"
       ammo-shape="type: cylinder"
       thetaStart={90}
