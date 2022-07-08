@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import { useRef } from 'react';
 import Markdown from 'react-markdown';
 
@@ -31,15 +32,18 @@ export default function Modal({ children }: Props) {
           {children}
         </Markdown>
 
-        <button
+        <Button
           className={style.closeButton}
           type="button"
+          variant="contained"
+          color="error"
+          size="large"
           onClick={() => {
             ref.current!.style.display = 'none';
           }}
         >
           close
-        </button>
+        </Button>
       </div>
     </div>
   );

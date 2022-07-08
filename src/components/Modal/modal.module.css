@@ -34,15 +34,8 @@
 }
 
 .closeButton {
-  display: block;
-  margin: 40px auto 0;
-  padding: 10px 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: white;
-  background-color: rgb(244, 67, 54);
-  border: none;
-  border-radius: 4px;
+  display: flex !important;
+  margin: 40px auto 0 !important;
 }
 
 .title {
