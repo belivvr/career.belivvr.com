@@ -5,6 +5,7 @@ interface Props {
   rotation?: string;
   curveRadius?: string;
   outlineWidth?: string;
+  maxWidth?: string;
   billboard?: boolean;
 }
 
@@ -15,6 +16,7 @@ export default function TroikaText({
   rotation = '0 0 0',
   curveRadius = '0',
   outlineWidth = '0',
+  maxWidth = 'infinity',
   billboard = false,
 }: Props) {
   return (
@@ -28,6 +30,8 @@ export default function TroikaText({
       rotation={rotation}
       outline-width={outlineWidth}
       billboard={billboard}
+      max-width={maxWidth}
+      overflow-rap="break-word"
     />
   );
 }
