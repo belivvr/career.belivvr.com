@@ -16,11 +16,7 @@ import {
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-import { ChatType } from './type/chat';
-import NicknameModal from './components/Nickname';
-import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
-import Title from './components/Title';
 import Modal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
@@ -32,7 +28,7 @@ import { chatOnSpeechBubble } from './utils/chat';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-let currentName = randomNameGenerator();
+const currentName = randomNameGenerator();
 
 AFRAME.registerComponent('click-open-modal', {
   init() {
@@ -75,8 +71,6 @@ interface User {
 
 export default function App(): JSX.Element {
   const [name, setName] = useState(currentName);
-  currentName = name;
-  const [chats, setChats] = useState<ChatType[]>([]);
   const [users, setUsers] = useState<{ [id: string]: User }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [unrealCareer, setUnrealCareer] = useState<string>('');
@@ -213,17 +207,9 @@ export default function App(): JSX.Element {
           <AssetItem src="/avatar.glb" id="avatar" />
         </Assets>
       </Scene>
-      {
-        !name && <NicknameModal socket={socket} setName={setName} />
-      }
-
       <Modal>{unrealCareer}</Modal>
 
-      <Title>Message</Title>
-
-      <MessageBox chats={chats} />
-
-      <MessageForm socket={socket} setChats={setChats} name={name} />
+      <MessageForm socket={socket} name={name} setName={setName} />
     </div>
   );
 }
