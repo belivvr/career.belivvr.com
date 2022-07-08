@@ -18,9 +18,7 @@ import { io } from 'socket.io-client';
 
 import { ChatType } from './type/chat';
 import NicknameModal from './components/Nickname';
-import MessageBox from './components/MessageBox';
 import MessageForm from './components/MessageForm';
-import Title from './components/Title';
 import Modal from './components/Modal';
 import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
@@ -218,10 +216,6 @@ export default function App(): JSX.Element {
       }
 
       <Modal>{unrealCareer}</Modal>
-
-      <Title>Message</Title>
-
-      <MessageBox chats={chats} />
 
       <MessageForm socket={socket} setChats={setChats} name={name} />
     </div>
