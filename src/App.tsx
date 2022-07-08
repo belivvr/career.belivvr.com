@@ -34,7 +34,7 @@ import Me from './components/Me';
 const socket = io(import.meta.env.VITE_API_URL);
 let currentName = randomNameGenerator();
 
-occupants({ socket, name: currentName });
+occupants({ socket, getName: () => currentName });
 
 export default function App(): JSX.Element {
   const [name, setName] = useState(currentName);
