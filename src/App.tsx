@@ -28,7 +28,7 @@ import { chatOnSpeechBubble } from './utils/chat';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const currentName = randomNameGenerator();
+let currentName = randomNameGenerator();
 
 AFRAME.registerComponent('click-open-modal', {
   init() {
@@ -209,7 +209,14 @@ export default function App(): JSX.Element {
       </Scene>
       <Modal>{unrealCareer}</Modal>
 
-      <MessageForm socket={socket} name={name} setName={setName} />
+      <MessageForm
+        socket={socket}
+        name={name}
+        setName={(value) => {
+          setName(value);
+          currentName = value;
+        }}
+      />
     </div>
   );
 }
