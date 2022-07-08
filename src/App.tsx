@@ -124,7 +124,7 @@ export default function App(): JSX.Element {
             magicWindowTrackingEnabled: !isMobileDevice,
           }}
           wasdControls={{
-            acceleration: 100,
+            acceleration: 10,
           }}
         >
           <Cylinder
