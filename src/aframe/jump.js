@@ -6,7 +6,7 @@ AFRAME.registerComponent('jump', {
     jumpVelocity: 0.002,
   },
   init() {
-    window.addEventListener('keydown', (e) => this.keydownHanlder(e));
+    window.addEventListener('keydown', this.keydownHanlder);
   },
   keydownHanlder(e) {
     if (e.key === ' ' && !this.member.isJump) {
