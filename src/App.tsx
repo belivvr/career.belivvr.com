@@ -23,6 +23,7 @@ import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 import './aframe/billboard';
 import TroikaText from './aframe/TroikaText';
+import Boundary from './components/Boundary';
 import { randomNameGenerator } from './utils/name';
 import { chatOnSpeechBubble } from './utils/chat';
 
@@ -200,7 +201,10 @@ export default function App(): JSX.Element {
 
         <Light type="ambient" />
 
+        <Boundary />
+
         <Assets>
+          <AssetItem src="/road_block.glb" id="boundary" />
           <img src="/sky.webp" alt="" id="sky" />
           <img src="/ground.jpeg" alt="" id="ground" />
           <img src="/speech.png" alt="" id="speech" />
