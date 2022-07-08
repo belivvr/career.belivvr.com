@@ -1,9 +1,7 @@
 import { Entity, GLTFModel, Image } from '@belivvr/aframe-react';
-
 import TroikaText from '../aframe/TroikaText';
 
-const NPC_SPEAK = '\'언리얼\' 개발자를 모집해요';
-
+const NPC_SPEAK = '\'Unreal\' 개발자를 모집해요!\n저를 클릭해주세요!\n가까이 오셔도 돼요!';
 export default function NPC(): JSX.Element {
   return (
     <Entity
