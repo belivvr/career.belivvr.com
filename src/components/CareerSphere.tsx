@@ -35,8 +35,8 @@ export default function CareerSphere(): JSX.Element {
       <TroikaText
         value={left}
         curveRadius="1"
-        rotation="0 60 0"
-        position="-0.86 0 -0.5"
+        rotation="0 54 0"
+        position="-0.8 0 -0.55"
         maxWidth="1"
       />
       <TroikaText
