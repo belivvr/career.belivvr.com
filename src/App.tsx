@@ -1,7 +1,6 @@
 import 'aframe-troika-text';
 import {
   Scene,
-  Box,
   Plane,
   Camera,
   Cylinder,
@@ -26,6 +25,7 @@ import TroikaText from './aframe/TroikaText';
 import Boundary from './components/Boundary';
 import { randomNameGenerator } from './utils/name';
 import { chatOnSpeechBubble } from './utils/chat';
+import NPC from './components/NPC';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -116,6 +116,10 @@ export default function App(): JSX.Element {
     <div>
       {loading && <Loading />}
       <Scene
+        renderer={{
+          colorManagement: true,
+          physicallyCorrectLights: true,
+        }}
         physics="driver: ammo"
         cursor="rayOrigin: mouse;"
         loading-screen="enabled: false"
@@ -170,14 +174,7 @@ export default function App(): JSX.Element {
           repeat={{ x: 600, y: 600 }}
         />
 
-        <Box
-          id="npc"
-          color="red"
-          position={{ x: -5, y: 0.5, z: -10 }}
-          ammo-body="type: static;"
-          ammo-shape="type: box"
-          click-open-modal
-        />
+        <NPC />
 
         <Sphere
           position={{ x: 5, y: 2, z: -10 }}
@@ -199,16 +196,17 @@ export default function App(): JSX.Element {
           position={{ x: 0, y: 10, z: 0 }}
         />
 
-        <Light type="ambient" />
+        <Light type="ambient" intensity={2} />
 
         <Boundary />
 
         <Assets>
-          <AssetItem src="/road_block.glb" id="boundary" />
           <img src="/sky.webp" alt="" id="sky" />
           <img src="/ground.jpeg" alt="" id="ground" />
           <img src="/speech.png" alt="" id="speech" />
+          <AssetItem src="/wizard.glb" id="wizard" />
           <AssetItem src="/avatar.glb" id="avatar" />
+          <AssetItem src="/road_block.glb" id="boundary" />
         </Assets>
       </Scene>
       <Modal>{unrealCareer}</Modal>
