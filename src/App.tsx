@@ -1,9 +1,6 @@
 import 'aframe-troika-text';
 import {
   Scene,
-  Plane,
-  Camera,
-  Cylinder,
   Assets,
   Light,
   Sky,
@@ -29,9 +26,9 @@ import NPC from './components/NPC';
 import CareerSphere from './components/CareerSphere';
 import Users from './components/Users';
 import Ground from './components/Ground';
+import Me from './components/Me';
 
 const socket = io(import.meta.env.VITE_API_URL);
-const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 let currentName = randomNameGenerator();
 
 AFRAME.registerComponent('click-open-modal', {
@@ -112,23 +109,9 @@ export default function App(): JSX.Element {
         loading-screen="enabled: false"
         joystick
       >
+        <Me />
+
         <Users users={users} />
-        <Camera
-          position={{ x: 0, y: 0.8, z: 0 }}
-          occupants
-          lookControls={{
-            magicWindowTrackingEnabled: !isMobileDevice,
-          }}
-          wasdControls={{
-            acceleration: 10,
-          }}
-        >
-          <Cylinder
-            ammo-body="type: kinematic; emitCollisionEvents: true;"
-            ammo-shape="type: cylinder"
-            detect-collision
-          />
-        </Camera>
 
         <Ground />
 
