@@ -1,6 +1,6 @@
 import 'aframe-troika-text';
 import {
-  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, Entity,
+  Scene, Box, Plane, Camera, Cylinder, Sphere, Assets, Light, Sky, Entity, AssetItem,
 } from '@belivvr/aframe-react';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -15,6 +15,7 @@ import Loading from './components/Loading';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 import TroikaText from './aframe/TroikaText';
+import Boundary from './components/Boundary';
 
 const socket = io(import.meta.env.VITE_API_URL);
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -123,7 +124,7 @@ export default function App(): JSX.Element {
             magicWindowTrackingEnabled: !isMobileDevice,
           }}
           wasdControls={{
-            acceleration: 10,
+            acceleration: 100,
           }}
         >
           <Cylinder
@@ -176,7 +177,10 @@ export default function App(): JSX.Element {
 
         <Light type="ambient" />
 
+        <Boundary />
+
         <Assets>
+          <AssetItem src="/road_block.glb" id="boundary" />
           <img src="/sky.webp" alt="" id="sky" />
           <img src="/ground.jpeg" alt="" id="ground" />
         </Assets>
