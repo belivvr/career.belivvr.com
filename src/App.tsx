@@ -14,6 +14,7 @@ import './aframe/joystick';
 import './aframe/billboard';
 import './aframe/click-open-modal';
 import './aframe/detect-collision';
+import './aframe/jump';
 import occupants from './aframe/occupants';
 
 import type { User } from './type/User';
