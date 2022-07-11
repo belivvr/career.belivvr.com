@@ -1,4 +1,6 @@
-import { Box, Button, TextField } from '@mui/material';
+import {
+  Box, Button, TextField, Tooltip,
+} from '@mui/material';
 import { useState } from 'react';
 
 import style from './style.module.css';
@@ -11,6 +13,8 @@ type Props = {
 
 export default function MessageForm({ socket, name, setName }: Props) {
   const [message, setMessage] = useState<string>('');
+  const [tmpMessage, setTmpMessage] = useState<string>('');
+  const [openTooltip, setOpenTooltip] = useState<boolean>(false);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +22,14 @@ export default function MessageForm({ socket, name, setName }: Props) {
     if (message === '') {
       return;
     }
+
+    setTmpMessage(message);
+    setOpenTooltip(true);
+
+    setTimeout(() => {
+      setTmpMessage('');
+      setOpenTooltip(false);
+    }, 5000);
 
     socket.emit('chat', { name, message });
 
@@ -40,12 +52,18 @@ export default function MessageForm({ socket, name, setName }: Props) {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <TextField
-        type="text"
-        label="Chat"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      <Tooltip
+        open={openTooltip}
+        title={tmpMessage}
+        arrow
+      >
+        <TextField
+          type="text"
+          label="Chat"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </Tooltip>
       <Button
         className={style.button}
         type="submit"
