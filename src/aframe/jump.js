@@ -21,7 +21,7 @@ AFRAME.registerComponent('jump', {
     }
 
     window.addEventListener('keydown', (e) => {
-      if (e.key !== this.data.jumpKey || this.isJump) {
+      if (e.target.nodeName.toUpperCase() === 'INPUT' || e.key !== this.data.jumpKey || this.isJump) {
         return;
       }
 
