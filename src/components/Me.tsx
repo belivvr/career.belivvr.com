@@ -1,8 +1,28 @@
 import { Camera, Cylinder } from '@belivvr/aframe-react';
+import { useEffect } from 'react';
 
 import { isMobileDevice } from '../utils/device';
 
+const DEFAULT_ACCELERATION = 10;
+const BOOST_ACCELERATION = 40;
+
 export default function Me(): JSX.Element {
+  useEffect(() => {
+    const camera = document.querySelector('a-camera')!;
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toUpperCase() === 'SHIFT') {
+        camera.setAttribute('wasd-controls', { acceleration: BOOST_ACCELERATION });
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.key.toUpperCase() === 'SHIFT') {
+        camera.setAttribute('wasd-controls', { acceleration: DEFAULT_ACCELERATION });
+      }
+    });
+  }, []);
+
   return (
     <Camera
       jump="pressToJump: #jump;"
@@ -12,7 +32,7 @@ export default function Me(): JSX.Element {
         magicWindowTrackingEnabled: !isMobileDevice,
       }}
       wasdControls={{
-        acceleration: 10,
+        acceleration: DEFAULT_ACCELERATION,
       }}
     >
       <Cylinder
