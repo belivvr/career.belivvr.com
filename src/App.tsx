@@ -12,9 +12,11 @@ import { io } from 'socket.io-client';
 import './aframe/look-controls-touch-y-axis';
 import './aframe/joystick';
 import './aframe/billboard';
-import './aframe/click-open-modal';
-import './aframe/detect-collision';
 import './aframe/jump';
+// @ts-ignore
+import detectCollision from './aframe/detect-collision';
+// @ts-ignore
+import clickOpenModal from './aframe/click-open-modal';
 import occupants from './aframe/occupants';
 
 import type { User } from './type/User';
@@ -27,7 +29,7 @@ import Modal from './components/Modal';
 import Loading from './components/Loading';
 import Boundary from './components/Boundary';
 import NPC from './components/NPC';
-import CareerSphere from './components/CareerSphere';
+import CareerCylinder from './components/CareerCylinder';
 import Users from './components/Users';
 import Ground from './components/Ground';
 import Me from './components/Me';
@@ -37,6 +39,8 @@ import JumpButton from './components/JumpButton';
 const socket = io(import.meta.env.VITE_API_URL);
 let currentName = randomNameGenerator();
 
+clickOpenModal(socket);
+detectCollision(socket);
 occupants({ socket, getName: () => currentName });
 
 export default function App(): JSX.Element {
@@ -99,7 +103,7 @@ export default function App(): JSX.Element {
         <Ground />
 
         <NPC />
-        <CareerSphere />
+        <CareerCylinder />
 
         <Milestone />
 
@@ -123,7 +127,7 @@ export default function App(): JSX.Element {
         </Assets>
       </Scene>
 
-      <Modal>{unrealCareer}</Modal>
+      <Modal socket={socket}>{unrealCareer}</Modal>
 
       <JumpButton />
       <MessageForm

@@ -19,7 +19,7 @@ export default function MessageForm({ socket, name, setName }: Props) {
       return;
     }
 
-    socket.emit('chat', message);
+    socket.emit('chat', { name, message });
 
     setMessage('');
   };

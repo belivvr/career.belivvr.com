@@ -1,8 +1,9 @@
-import { Cylinder } from '@belivvr/aframe-react';
 import { useEffect, useState } from 'react';
+import { Cylinder } from '@belivvr/aframe-react';
+
 import TroikaText from '../aframe/TroikaText';
 
-export default function CareerSphere(): JSX.Element {
+export default function CareerCylinder(): JSX.Element {
   const [left, setLeft] = useState<string>('');
   const [center, setCenter] = useState<string>('');
   const [right, setRight] = useState<string>('');
@@ -32,6 +33,7 @@ export default function CareerSphere(): JSX.Element {
       height={2}
       side="double"
       color="black"
+      id="careerCylinder"
     >
       <TroikaText
         value={left}
