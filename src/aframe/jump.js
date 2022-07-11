@@ -10,7 +10,7 @@ AFRAME.registerComponent('jump', {
     this.initialPositionY = this.el.sceneEl.camera.el.getAttribute('position').y;
 
     if (this.data.pressToJump) {
-      document.querySelector(this.data.pressToJump).addEventListener('click', () => {
+      document.querySelector(this.data.pressToJump).addEventListener('touchstart', () => {
         if (this.isJump) {
           return;
         }
