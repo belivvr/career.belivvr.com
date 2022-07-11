@@ -5,8 +5,8 @@ import { isMobileDevice } from '../utils/device';
 const StyledButton = styled(Button)({
   position: 'fixed',
   zIndex: 10,
-  left: '48px',
-  bottom: '150px',
+  right: '10px',
+  bottom: '200px',
   display: isMobileDevice ? 'block' : 'none',
   width: '60px',
   height: '60px',
