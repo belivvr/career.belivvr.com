@@ -11,6 +11,8 @@ type Props = {
   setName: (name: string) => void;
 };
 
+let timeout: null | NodeJS.Timeout;
+
 export default function MessageForm({ socket, name, setName }: Props) {
   const [message, setMessage] = useState<string>('');
   const [tmpMessage, setTmpMessage] = useState<string>('');
@@ -26,9 +28,14 @@ export default function MessageForm({ socket, name, setName }: Props) {
     setTmpMessage(message);
     setOpenTooltip(true);
 
-    setTimeout(() => {
+    if (timeout !== null) {
+      clearTimeout(timeout!);
+    }
+
+    timeout = setTimeout(() => {
       setTmpMessage('');
       setOpenTooltip(false);
+      timeout = null;
     }, 5000);
 
     socket.emit('chat', { name, message });
@@ -55,7 +62,13 @@ export default function MessageForm({ socket, name, setName }: Props) {
       <Tooltip
         open={openTooltip}
         title={tmpMessage}
+        placement="top"
         arrow
+        PopperProps={{
+          sx: {
+            zIndex: 9999,
+          },
+        }}
       >
         <TextField
           type="text"
