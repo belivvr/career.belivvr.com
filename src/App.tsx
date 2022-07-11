@@ -35,6 +35,8 @@ import Ground from './components/Ground';
 import Me from './components/Me';
 import Milestone from './components/Milestone';
 import JumpButton from './components/JumpButton';
+import HowToOperateModal from './components/HowToOperateModal';
+import { isMobileDevice } from './utils/device';
 
 const socket = io(import.meta.env.VITE_API_URL);
 let currentName = randomNameGenerator();
@@ -138,6 +140,7 @@ export default function App(): JSX.Element {
           currentName = value;
         }}
       />
+      {!isMobileDevice && <HowToOperateModal />}
     </>
   );
 }
