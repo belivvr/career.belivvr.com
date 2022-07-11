@@ -57,7 +57,7 @@ export default function MessageForm({ socket, name, setName }: Props) {
         type="text"
         label="Name"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => setName(e.target.value.substring(0, 20))}
       />
       <Tooltip
         open={openTooltip}
