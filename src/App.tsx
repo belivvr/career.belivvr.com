@@ -32,6 +32,7 @@ import Users from './components/Users';
 import Ground from './components/Ground';
 import Me from './components/Me';
 import Milestone from './components/Milestone';
+import JumpButton from './components/JumpButton';
 
 const socket = io(import.meta.env.VITE_API_URL);
 let currentName = randomNameGenerator();
@@ -124,6 +125,7 @@ export default function App(): JSX.Element {
 
       <Modal>{unrealCareer}</Modal>
 
+      <JumpButton />
       <MessageForm
         socket={socket}
         name={name}

@@ -3,10 +3,23 @@ AFRAME.registerComponent('jump', {
     gravity: { type: 'number', default: 9.8 },
     power: { type: 'number', default: 160 },
     jumpKey: { type: 'string', default: ' ' },
+    pressToJump: { type: 'string', default: '' },
   },
 
   init() {
-    this.initialPositionY = this.el.getAttribute('position').y;
+    this.initialPositionY = this.el.sceneEl.camera.el.getAttribute('position').y;
+
+    if (this.data.pressToJump) {
+      document.querySelector(this.data.pressToJump).addEventListener('click', () => {
+        if (this.isJump) {
+          return;
+        }
+
+        this.isJump = true;
+        this.velocity = this.data.power;
+      });
+    }
+
     window.addEventListener('keydown', (e) => {
       if (e.key !== this.data.jumpKey || this.isJump) {
         return;
