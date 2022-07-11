@@ -40,7 +40,7 @@ export default function CareerCylinder(): JSX.Element {
         curveRadius="1"
         rotation="0 54 0"
         position="-0.8 0.3 -0.55"
-        maxWidth="1"
+        maxWidth="0.8"
       />
       <TroikaText
         value={center}
