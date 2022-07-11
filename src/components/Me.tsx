@@ -1,10 +1,11 @@
 import { Camera, Cylinder } from '@belivvr/aframe-react';
 
-const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+import { isMobileDevice } from '../utils/device';
 
 export default function Me(): JSX.Element {
   return (
     <Camera
+      jump="pressToJump: #jump;"
       position={{ x: 0, y: 1.6, z: 0 }}
       occupants
       lookControls={{
