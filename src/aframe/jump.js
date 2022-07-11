@@ -1,39 +1,38 @@
 AFRAME.registerComponent('jump', {
-  member: {
-    isJump: false,
-    jumpTime: 60,
-    jumpPower: 0.065,
-    jumpVelocity: 0.002,
+  schema: {
+    gravity: { type: 'number', default: 9.8 },
+    power: { type: 'number', default: 160 },
+    jumpKey: { type: 'string', default: ' ' },
   },
-  init() {
-    window.addEventListener('keydown', this.keydownHanlder);
-  },
-  keydownHanlder(e) {
-    if (e.key === ' ' && !this.member.isJump) {
-      this.member.isJump = true;
-      this.setJumpUpAnimation();
-    }
-  },
-  setJumpUpAnimation() {
-    const jumpUpAnimation = setInterval(() => {
-      this.el.object3D.position.y += this.member.jumpPower;
-      this.member.jumpPower -= this.member.jumpVelocity;
-      if (this.member.jumpPower < 0) {
-        clearInterval(jumpUpAnimation);
-        this.setJumpDownAnimation();
-      }
-    }, 10);
-  },
-  setJumpDownAnimation() {
-    const jumpDownAnimation = setInterval(() => {
-      this.el.object3D.position.y -= this.member.jumpPower;
-      this.member.jumpPower += this.member.jumpVelocity;
 
-      if (this.member.jumpPower > 0.065) {
-        clearInterval(jumpDownAnimation);
-        this.member.isJump = false;
-        this.member.jumpPower = 0.065;
+  init() {
+    this.initialPositionY = this.el.getAttribute('position').y;
+    window.addEventListener('keydown', (e) => {
+      if (e.key !== this.data.jumpKey || this.isJump) {
+        return;
       }
-    }, 10);
+
+      this.isJump = true;
+      this.velocity = this.data.power;
+    });
+  },
+
+  tick() {
+    if (!this.isJump) {
+      return;
+    }
+
+    const position = this.el.getAttribute('position');
+    const nextPositionY = position.y + (this.velocity / 1000);
+
+    if (nextPositionY < this.initialPositionY) {
+      this.el.setAttribute('position', { ...position, y: this.initialPositionY });
+      this.isJump = false;
+      return;
+    }
+
+    this.el.setAttribute('position', { ...position, y: nextPositionY });
+
+    this.velocity -= this.data.gravity;
   },
 });
